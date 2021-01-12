@@ -60,7 +60,7 @@ class testAlgo:
     print(algo.maybenewSCC())
     my_list = []
 
-    my_path = ["C:/Users/motid/PycharmProjects/pythonProject1/src/gameClient/Graphs_no_pos/","C:/Users/motid/PycharmProjects/pythonProject1/src/gameClient/Graphs_on_circle/","C:/Users/motid/PycharmProjects/pythonProject1/src/gameClient/Graphs_random_pos/"]
+    my_path = ["Graphs/src/gameClient/Graphs_no_pos/","Graphs/src/gameClient/Graphs_on_circle/","C:/Users/motid/PycharmProjects/pythonProject1/src/gameClient/Graphs_random_pos/"]
     for x in my_path:
         for root, dirs, files in os.walk(x):
             for file in files:
