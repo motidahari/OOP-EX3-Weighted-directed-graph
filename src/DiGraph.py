@@ -187,12 +187,6 @@ class DiGraph(GraphInterface):
         else:
             return False
 
-    # def __str__(self) -> str:
-    #     str = ""
-    #     for element in self.V.values():
-    #             print(element)
-    #     return str
-
     def __str__(self) -> str:
         str = "Vertices: {}, Edges: {}, MC: {}\n".format(self.nodeSize , self.edgeSize, self.mc)
         for element in self.V.values():

@@ -12,7 +12,6 @@ class GraphAlgo(GraphAlgoInterface):
 
     def __init__(self, graph=None):
         self.tags = {}
-        self.map = {}
         self.VISITED = 1
         self.NOT_VISITED = 0
         self.g = None if graph is None else graph
@@ -20,29 +19,9 @@ class GraphAlgo(GraphAlgoInterface):
         self.nodeSize = 0 if graph is None else graph.v_size()
         self.edgeSize = 0 if graph is None else graph.e_size()
         self.transposed_graph = None if graph is None else self.createTransposedGraph(graph)
-        positive_infnity = float('inf')
-        negative_infnity = float('-inf')
+        self.positive_infnity = float('inf')
+        self.negative_infnity = float('-inf')
 
-    # def BFS(self, node_id: int, graph: DiGraph):
-    #     """
-    #     Finds all the Strongly Connected Component(SCC) in the graph.
-    #     @return: The list all SCC
-    #     """
-    #     if self.g is None:
-    #         return
-    #     node = self.g.get_all_v()[node_id]
-    #     node.setTag(self.VISITED)
-    #     node.setTag(self.NOT_VISITED)
-    #     queue = []
-    #     queue.append(node)
-    #     while len(queue) > 0:
-    #         delNode = queue.pop(0)
-    #         for e in self.g.all_out_edges_of_node(delNode.getKey()):
-    #             node = self.g.get_all_v()[e]
-    #             if node.getTag() == self.NOT_VISITED:
-    #                 queue.append(node)
-    #                 node.setTag(self.VISITED)
-    #
     def createTransposedGraph(self, graph) -> DiGraph:
         if self.g is None:
             return
@@ -69,7 +48,6 @@ class GraphAlgo(GraphAlgoInterface):
         for x in self.g.get_all_values():
             x.setWeight(t)
             x.setInfo("")
-            # print(x)
 
     def printAllTags(self):
         if self.g is None:
@@ -78,19 +56,19 @@ class GraphAlgo(GraphAlgoInterface):
             print(x)
 
     def get_graph(self) -> GraphInterface:
-        if self.g is None:
-            return None
         """
         :return: the directed graph on which the algorithm works on.
         """
+        if self.g is None:
+            return None
         return self.g
 
     def get_transposed_graph(self) -> GraphInterface:
-        if self.transposed_graph is None:
-            return None
         """
         :return: the directed graph on which the algorithm works on.
         """
+        if self.transposed_graph is None:
+            return None
         return self.transposed_graph
 
     def load_from_json(self, file_name: str) -> bool:
@@ -128,7 +106,6 @@ class GraphAlgo(GraphAlgoInterface):
         """
         if self.g is None:
             return False
-        # print("self.g in save = \n{}".format(self.g))
         my_dict = {}
         my_dict["Edges"] = []
         my_dict["Nodes"] = []
@@ -149,7 +126,7 @@ class GraphAlgo(GraphAlgoInterface):
                 writer.write(Js.dumps(my_dict))
                 return True
         except:
-            raise FileExistsError
+            # raise FileExistsError
             return False
         finally:
             writer.close()
@@ -176,15 +153,11 @@ class GraphAlgo(GraphAlgoInterface):
         https://en.wikipedia.org/wiki/Dijkstra's_algorithm
         """
         if self.g is None:
-            return (-1, [])
+            return (-1,[])
         if id1 in self.g.get_v_keys() and id1 == id2:
-            # print("if id1 in self.g.get_all_v_keys() and id1 == id2:")
-            # my_tuple = (0, [self.g.get_all_v()[id1]])
             my_tuple = (0, [self.g.get_all_v()[id1].getKey()])
             return my_tuple
-        # print(self.g.get_all_v().keys())
         if id1 not in self.g.get_all_v().keys() or id2 not in self.g.get_all_v().keys():
-            # print("if id1 not in self.g.get_all_v_keys() or id2 not in self.g.get_all_v_keys():")
             my_tuple = (-1, [])
             return my_tuple
         queue = [id1]
@@ -195,7 +168,6 @@ class GraphAlgo(GraphAlgoInterface):
         while queue:
             node = queue.pop(0)
             for x in self.g.all_out_edges_of_node(node).keys():
-                # print(self.g.get_all_v())
                 if self.g.get_all_v()[x].getWeight() == -1 or self.g.get_all_v()[x].getWeight() > self.g.get_all_v()[
                     node].getWeight() + self.g.all_out_edges_of_node(node)[x]:
                     self.g.get_all_v()[x].setWeight(
@@ -221,7 +193,6 @@ class GraphAlgo(GraphAlgoInterface):
         """
         if self.g is None:
             return []
-
         my_list = self.connected_components()
         if my_list:
             for x in my_list:
@@ -302,8 +273,6 @@ class GraphAlgo(GraphAlgoInterface):
                     list_Y.append(listOfEdgesByX[1])
 
                 plt.plot(list_X, list_Y, "*-b")
-
-                #
                 # listOfVector = self.checkValue(listOfVector)
                 # listOfEdgesByX = self.checkValue(listOfEdgesByX)
                 # #plt.scatter(listOfVector[0], listOfVector[1], s=150, zorder=5)
@@ -334,7 +303,6 @@ class GraphAlgo(GraphAlgoInterface):
             y = float((r.random() * 5) + 2)
             return [x, y]
         else:
-            # print("values")
             x = float(pos.split(",")[0])
             y = float(pos.split(",")[1])
             return [x, y]
