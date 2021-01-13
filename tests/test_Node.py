@@ -36,7 +36,7 @@ class TestNode(TestCase):
             c = r.random()*20
             pos = "{},{},{}".format(a,b,c)
             x.setPos((a,b,c))
-            self.assertEqual(x.getPos(),pos)
+            self.assertEqual(x.getPosAsString(),pos)
 
     def test_get_info(self):
         for x in self.listNodes:
@@ -83,11 +83,11 @@ class TestNode(TestCase):
             a = int(r.random() * 100)
             b = int(r.random() * 100)
             c = int(r.random() * 100)
-            getPos = x.getPos()
+            getPos = x.getPosAsString()
             newPos = "{},{},{}".format(a, b, c)
             x.setPos((a,b,c))
-            self.assertEqual(x.getPos(), newPos)
-            self.assertNotEqual(x.getPos(), getPos)
+            self.assertEqual(x.getPosAsString(), newPos)
+            self.assertNotEqual(x.getPosAsString(), getPos)
 
     def test_set_tag(self):
         for x in self.listNodes:

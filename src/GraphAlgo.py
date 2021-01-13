@@ -135,8 +135,8 @@ class GraphAlgo(GraphAlgoInterface):
         for x in self.g.get_all_values():
             node_dict = {}
             node_dict["id"] = x.getKey()
-            if len(x.getPos()) > 0:
-                node_dict["pos"] = x.getPos()
+            if len(x.getPosAsString()) > 0:
+                node_dict["pos"] = x.getPosAsString()
             my_dict["Nodes"].append(node_dict)
             for e in self.g.all_out_edges_of_node(x.getKey()):
                 edges_dict = {}
@@ -290,13 +290,13 @@ class GraphAlgo(GraphAlgoInterface):
         list_Y = []
         for x in self.g.get_all_v().keys():
             for e in self.g.all_out_edges_of_node(x).keys():
-                # print(self.g.get_all_v()[x].getPos())
-                listOfVector = self.splitPos(self.g.get_all_v()[x].getPos())
+                # print(self.g.get_all_v()[x].getPosAsString())
+                listOfVector = self.splitPos(self.g.get_all_v()[x].getPosAsString())
                 if listOfVector is not None:
                     list_X.append(listOfVector[0])
                     list_Y.append(listOfVector[1])
 
-                listOfEdgesByX = self.splitPos(self.g.get_all_v()[e].getPos())
+                listOfEdgesByX = self.splitPos(self.g.get_all_v()[e].getPosAsString())
                 if listOfEdgesByX is not None:
                     list_X.append(listOfEdgesByX[0])
                     list_Y.append(listOfEdgesByX[1])

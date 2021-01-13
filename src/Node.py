@@ -27,8 +27,18 @@ class Node:
     def getKey(self) -> int:
         return self.key
 
-    def getPos(self) -> str:
+
+    def getPosAsString(self) -> str:
         return self.pos
+
+    def getPos(self) -> tuple:
+        if self.pos == "":
+            tuple = ()
+            return tuple
+        else:
+            arr = self.pos.split(",")
+            my_tuple = (float(arr[0]), float(arr[1]), float(arr[2]))
+            return my_tuple
 
     def getInfo(self) -> str:
         return self.info

@@ -137,6 +137,7 @@ class DiGraph(GraphInterface):
             return True
         else:
             return False
+            return False
 
     def remove_node(self, node_id: int) -> bool:
         """

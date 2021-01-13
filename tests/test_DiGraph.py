@@ -79,10 +79,8 @@ class TestDiGraph(TestCase):
         for x in self.graph.get_all_values():
             self.graph.add_edge(x.getKey(), x.getKey() + 1, x.getKey() * 100)
             self.graph.add_edge(x.getKey(), x.getKey() + 2, x.getKey() * 100)
-        # print(self.graph)
         run = 0
         for x in self.graph.get_all_values():
-            # print("x key = ",x.getKey())
             if run == 0:
                 self.assertEqual(0, len(self.graph.all_in_edges_of_node(x.getKey())))
             if run == 1:
@@ -138,19 +136,15 @@ class TestDiGraph(TestCase):
             if self.graph.add_edge(x.getKey(), x.getKey() + 1, x.getKey() * 100) is True:
                 edges += 1
         self.assertEqual(self.graph.e_size(), edges)
-        print("edges = {} , e_size() = {}".format(edges,self.graph.e_size()))
 
         for x in range(50):
             removedEdges = self.graph.e_size_by_id(self.graph.nodeSize - x)
             if self.graph.remove_node(self.graph.nodeSize - x) is True:
                 edges -= removedEdges
-        print("edges = {} , e_size() = {}".format(edges,self.graph.e_size()))
 
         for x in self.graph.get_all_values():
             if self.graph.add_edge(x.getKey(), x.getKey() + 1, x.getKey() * 100) is True:
                 edges += 1
-        print("edges = {} , e_size() = {}".format(edges,self.graph.e_size()))
-
         self.assertEqual(self.graph.e_size(), edges)
 
         for x in range(50):
@@ -229,9 +223,6 @@ class TestDiGraph(TestCase):
             if self.graph.add_edge(x.getKey(), x.getKey() + 1, x.getKey() * 100) is True:
                 edges += 1
 
-        # print(self.graph.toStringInAndOut())
-        print(self.graph)
-        print(self.graph.toStringInAndOut())
         self.assertEqual(self.graph.e_size(), edges)
         for x in range(50):
             if self.graph.add_edge(x, x + 1, r.random() * 10000) is True:
@@ -254,46 +245,4 @@ class TestDiGraph(TestCase):
             if self.graph.remove_node(self.graph.nodeSize - x) is True:
                 edges -= removedEdges
         self.assertEqual(self.graph.e_size(), edges)
-        # pass
 
-    def test_to_string(self):
-
-        pass
-    def test_toStringInAndOut(self):
-        # edges = 0
-        # # for x in range():
-        # #     self.graph.add_node(r.random()*200)
-        # str = "Vertices: {}, Edges: {}, MC: {}\n".format(self.graph.v_size() , self.graph.e_size(), self.graph.get_mc())
-        # string = ""
-        # for x in self.graph.get_all_values():
-        #     if self.graph.add_edge(x.getKey(), x.getKey() + 1, x.getKey() * 100) is True:
-        #         edges += 1
-        #         str += "({0} -> {1}) w = {2}, \n".format(x.getKey(), x.getKey() + 1, x.getKey() * 100)
-        #     rand = r.random()*5
-        #     if self.graph.add_edge(x.getKey(), x.getKey() + rand, x.getKey() * 100) is True:
-        #         edges += 1
-        #         str += "({0} -> {1}) w = {2}, \n".format(x.getKey(), x.getKey() + rand, x.getKey() * 100)
-        # 
-        # toString = "{}".format(self.graph)
-        # # print(self.graph)
-        # # print(string)
-        # i = 0
-        # check = ""
-        # for x in string:
-        #     if x != string[i]:
-        #         check += x
-        # 
-        # print(check)
-        # print(len(toString))
-        # print(len(string))
-        # self.assertEqual(toString, string)
-        # 
-        # print(toString)
-        # pass
-        """
-
-
-    def test_to_string(self):
-
-        pass
-"""

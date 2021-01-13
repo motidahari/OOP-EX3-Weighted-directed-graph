@@ -1,16 +1,17 @@
-from unittest import TestCase
-from src.GraphAlgo import GraphAlgo
-from src.DiGraph import DiGraph
-from os import walk
-import glob
 import os
 from pathlib import Path
+from unittest import TestCase
 import random as r
+from src.DiGraph import DiGraph
+from src.GraphAlgo import GraphAlgo
+
 
 class TestGraphAlgo(TestCase):
     list_algo = []
     list_graph = []
 
+    def setUp(self):
+        self.func1()
 
     def func1(self):
         my_list = []
@@ -29,59 +30,58 @@ class TestGraphAlgo(TestCase):
             if algo.load_from_json(i) is True:
                 algo = GraphAlgo(algo.get_graph())
                 self.list_algo.append(algo)
-                self.list_graph.append(algo)
-                break
+                self.list_graph.append(algo.get_graph())
+
     def func2(self):
         graph = DiGraph()
         for x in range(7):
             graph.add_node(x)
         for x in graph.get_all_values():
             graph.add_edge(x.getKey(), x.getKey() + 1, x.getKey() + 1)
+            graph.add_edge(x.getKey(), x.getKey() - 1, x.getKey() + 1)
 
         graph.add_node(8)
         graph.add_node(9)
         algo = GraphAlgo(graph)
+        self.list_algo = []
+        self.list_graph = []
         self.list_algo.append(algo)
-        self.list_graph.append(algo)
+        self.list_graph.append(algo.get_graph())
 
-    def setUp(self):
-        # self.func1()
+    def test_connected_component(self):
         self.func2()
-        # my_list = []
-        # dir_path = os.path.dirname(os.path.realpath(__file__))
-        # parent = Path(dir_path).parent
-        # my_path = ["/Graphs/Graphs_no_pos/", "/Graphs/Graphs_on_circle/", "/Graphs/Graphs_random_pos/"]
-        # for x in my_path:
-        #     string = "{}{}".format(parent, x)
-        #     for root, dirs, files in os.walk(string):
-        #         for file in files:
-        #             if file.endswith('.json'):
-        #                 path = "{}{}".format(string, file)
-        #                 my_list.append(path)
-        # algo = GraphAlgo(DiGraph())
-        # for i in my_list:
-        #     if algo.load_from_json(i) is True:
-        #         algo = GraphAlgo(algo.get_graph())
-        #         self.list_algo.append(algo)
-        #         break
+        my_list = [[0, 1, 2, 3, 4, 5, 6],[8],[9]]
+        i = 0
+        for x in self.list_graph[0].get_all_v().values():
+            str = "i = {} , {} -> {} == {}".format(i,x.getKey(), self.list_algo[0].connected_component(x.getKey()), my_list[0])
+            if i < 7:
+                self.assertEqual(my_list[0],self.list_algo[0].connected_component(x.getKey()))
+            if i == 7:
+                self.assertEqual(my_list[1],self.list_algo[0].connected_component(x.getKey()))
 
+            if i == 8:
+                self.assertEqual(my_list[2],self.list_algo[0].connected_component(x.getKey()))
+            i += 1
 
+    def test_connected_components(self):
+        self.func2()
+        my_list = [[0, 1, 2, 3, 4, 5, 6], [8], [9]]
+        self.assertEqual(my_list, self.list_algo[0].connected_components())
 
     def test_create_transposed_graph(self):
+        self.func2()
         for i in self.list_algo:
             for node in i.get_graph().get_all_v().keys():
-                 self.assertEqual(i.get_graph().all_out_edges_of_node(node).keys(),i.get_transposed_graph().all_in_edges_of_node(node).keys())
+                self.assertEqual(i.get_graph().all_out_edges_of_node(node).keys(),i.get_transposed_graph().all_in_edges_of_node(node).keys())
 
     def test_set_all_tags(self):
         for i in self.list_algo:
-            print(i.get_graph())
             i.setAllTags(100)
         for i in i.getAllTags().values():
             self.assertEqual(100,i)
 
     def test_get_all_tags(self):
         for i in self.list_algo:
-            print(i.get_graph())
             i.setAllTags(100)
         for i in i.getAllTags().values():
             self.assertEqual(100,i)
@@ -94,35 +94,92 @@ class TestGraphAlgo(TestCase):
             self.assertEqual(100,i.getWeight())
 
     def test_get_graph(self):
-        i = 0
+        index = 0
         for i in self.list_graph:
-            print("i = {}".format(i))
-            print("list_algo.pop = {}".format(self.list_algo[0].get_graph()))
-            # self.assertEqual(self.i,self.list_algo[i])
-            i += 1
-
-        pass
+            g1 = "".format(i)
+            g2 = "".format(self.list_algo[0].get_graph())
+            self.assertEqual(g1,g2)
+            index += 1
 
     def test_load_from_json(self):
-        pass
+        my_list = []
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        parent = Path(dir_path).parent
+        my_path = ["/Graphs/Graphs_no_pos/", "/Graphs/Graphs_on_circle/", "/Graphs/Graphs_random_pos/"]
+        for x in my_path:
+            string = "{}{}".format(parent, x)
+            for root, dirs, files in os.walk(string):
+                for file in files:
+                    if file.endswith('.json'):
+                        path = "{}{}".format(string, file)
+                        my_list.append(path)
+        algo = GraphAlgo(DiGraph())
+        for i in my_list:
+            if algo.load_from_json(i) is True:
+                algo = GraphAlgo(algo.get_graph())
+                self.list_algo.append(algo)
+                self.list_graph.append(algo)
+        for x in self.list_algo:
+            self.assertIsNotNone(x.get_graph())
+            self.assertTrue(x.get_graph().v_size() > 0)
 
     def test_save_to_json(self):
-        pass
+        for x in self.list_algo:
+            graph = x.get_graph()
+            x.save_to_json("saveCheck.json")
+            x.load_from_json("saveCheck.json")
+            str1 = "".format(graph)
+            str2 = "".format(x.get_graph())
+            self.assertEqual(str1,str2)
 
     def test_shortest_path(self):
-        pass
-
-    def test_connected_component(self):
-        pass
-
-    def test_connected_components(self):
-        pass
-
-    def test_plot_graph(self):
-        pass
-
-    def test_chack_value(self):
-        pass
+        self.func2()
+        for x in self.list_algo:
+            nodeSize = x.get_graph().v_size()
+            for v in x.get_graph().get_v_keys():
+                for ni in x.get_graph().get_v_keys():
+                    if v != ni and ni in x.get_graph().all_out_edges_of_node(v).keys():
+                        id = v
+                        run = 0
+                        for theList in x.shortest_path(v,ni)[1]:
+                            if run > 0:
+                                self.assertTrue(theList in x.get_graph().all_out_edges_of_node(id).keys())
+                                id = theList
+                            run += 1
+                        id = v
+                        run = 0
+                        run = 0
+                        for theList in x.shortest_path(v,nodeSize*5):
+                            if run == 0:
+                                self.assertEqual(theList,-1)
+                            if run == 1:
+                                self.assertEqual(len(theList),0)
+                            run += 1
 
     def test_split_pos(self):
-        pass
+        self.func2()
+        for x in self.list_algo:
+            rand1 = r.randint(-100, 100)*100
+            rand2 = r.randint(-100, 100)*100
+            check = [rand1,rand2]
+            my_list = [rand1,rand2]
+            if check[0] < 0:
+                check[0] += 0.04
+            else:
+                check[0] -= 0.04
+            if check[1] < 0:
+                check[1] += 0.04
+            else:
+                check[1] -= 0.04
+
+            result = x.checkValue(my_list)
+            self.assertEqual(result[0] == check[0],result[1] == check[1])
+
+    def test_chack_value(self):
+        self.func2()
+        for x in self.list_algo:
+            rand1 = format(r.randint(-100, 100) * 100)
+            rand2 = format(r.randint(-100, 100) * 100)
+            check = "{},{}".format(rand1, rand2)
+            result = x.splitPos(check)
+            self.assertEqual(result[0] == "{}".format(rand1), result[1] == "{}".format(rand2))
