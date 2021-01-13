@@ -1,5 +1,5 @@
-from GraphAlgo import GraphAlgo
-from DiGraph import DiGraph
+from src.GraphAlgo import GraphAlgo
+from src.DiGraph import DiGraph
 from os import walk
 import glob
 import os
@@ -68,7 +68,7 @@ class testAlgo:
 
     # print(algo.load_from_json("../Graphs/Graphs_no_pos/G_10_80_0.json"))
     print(algo.plot_graph())
-    print(algo.get_graph().toString())
+    print(algo.get_graph().toStringInAndOut())
 
     # algo.load_from_json("newFile.json")
     # print(algo.plot_graph())
