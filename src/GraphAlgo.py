@@ -3,7 +3,7 @@ import math
 from typing import List
 import matplotlib.pyplot as plt
 from DiGraph import DiGraph
-from src import GraphInterface
+from GraphInterface import GraphInterface
 from src.GraphAlgoInterface import GraphAlgoInterface
 import random as r
 
@@ -19,30 +19,30 @@ class GraphAlgo(GraphAlgoInterface):
         self.mc = 0 if graph is None else graph.get_mc()
         self.nodeSize = 0 if graph is None else graph.v_size()
         self.edgeSize = 0 if graph is None else graph.e_size()
-        self.TransposedGraph = None if graph is None else self.createTransposedGraph(graph)
+        self.transposed_graph = None if graph is None else self.createTransposedGraph(graph)
         positive_infnity = float('inf')
         negative_infnity = float('-inf')
 
-    def BFS(self, node_id: int, graph: DiGraph):
-        """
-        Finds all the Strongly Connected Component(SCC) in the graph.
-        @return: The list all SCC
-        """
-        if self.g is None:
-            return
-        node = self.g.get_all_v()[node_id]
-        node.setTag(self.VISITED)
-        node.setTag(self.NOT_VISITED)
-        queue = []
-        queue.append(node)
-        while len(queue) > 0:
-            delNode = queue.pop(0)
-            for e in self.g.all_out_edges_of_node(delNode.getKey()):
-                node = self.g.get_all_v()[e]
-                if node.getTag() == self.NOT_VISITED:
-                    queue.append(node)
-                    node.setTag(self.VISITED)
-
+    # def BFS(self, node_id: int, graph: DiGraph):
+    #     """
+    #     Finds all the Strongly Connected Component(SCC) in the graph.
+    #     @return: The list all SCC
+    #     """
+    #     if self.g is None:
+    #         return
+    #     node = self.g.get_all_v()[node_id]
+    #     node.setTag(self.VISITED)
+    #     node.setTag(self.NOT_VISITED)
+    #     queue = []
+    #     queue.append(node)
+    #     while len(queue) > 0:
+    #         delNode = queue.pop(0)
+    #         for e in self.g.all_out_edges_of_node(delNode.getKey()):
+    #             node = self.g.get_all_v()[e]
+    #             if node.getTag() == self.NOT_VISITED:
+    #                 queue.append(node)
+    #                 node.setTag(self.VISITED)
+    #
     def createTransposedGraph(self, graph) -> DiGraph:
         if self.g is None:
             return
@@ -59,6 +59,9 @@ class GraphAlgo(GraphAlgoInterface):
             return
         for x in self.g.get_all_values():
             self.tags[x] = t
+
+    def getAllTags(self):
+        return self.tags
 
     def setAllWeightAndInfo(self, t: float):
         if self.g is None:
@@ -81,6 +84,14 @@ class GraphAlgo(GraphAlgoInterface):
         :return: the directed graph on which the algorithm works on.
         """
         return self.g
+
+    def get_transposed_graph(self) -> GraphInterface:
+        if self.transposed_graph is None:
+            return None
+        """
+        :return: the directed graph on which the algorithm works on.
+        """
+        return self.transposed_graph
 
     def load_from_json(self, file_name: str) -> bool:
         """

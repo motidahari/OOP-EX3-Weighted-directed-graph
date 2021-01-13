@@ -1,4 +1,3 @@
-
 from DiGraph import DiGraph
 from GraphAlgo import GraphAlgo
 import random
@@ -6,92 +5,6 @@ import time
 import networkx as nx
 from GraphInterface import GraphInterface
 import matplotlib.pyplot as plt
-
-
-
-def check():
-    """
-    Graph: |V|=4 , |E|=5
-    {0: 0: |edges out| 1 |edges in| 1, 1: 1: |edges out| 3 |edges in| 1, 2: 2: |edges out| 1 |edges in| 1, 3: 3: |edges out| 0 |edges in| 2}
-    {0: 1}
-    {0: 1.1, 2: 1.3, 3: 10}
-    (3.4, [0, 1, 2, 3])
-    [[0, 1], [2], [3]]
-    (2.8, [0, 1, 3])
-    (inf, [])
-    2.062180280059253 [1, 10, 7]
-    17.693921758901507 [47, 46, 44, 43, 42, 41, 40, 39, 15, 16, 17, 18, 19]
-    11.51061380461898 [20, 21, 32, 31, 30, 29, 14, 13, 3, 2]
-    inf []
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-    [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47]]
-    """
-    check0()
-    check1()
-    check2()
-
-
-def check0():
-    """
-    This function tests the naming (main methods of the DiGraph class, as defined in GraphInterface.
-    :return:
-    """
-    g = DiGraph()  # creates an empty directed graph
-    for n in range(4):
-        g.add_node(n)
-    g.add_edge(0, 1, 1)
-    g.add_edge(1, 0, 1.1)
-    g.add_edge(1, 2, 1.3)
-    g.add_edge(2, 3, 1.1)
-    g.add_edge(1, 3, 1.9)
-    g.remove_edge(1, 3)
-    g.add_edge(1, 3, 10)
-    print(g)  # prints the __repr__ (func output)
-    print(g.get_all_v())  # prints a dict with all the graph's vertices.
-    print(g.all_in_edges_of_node(1))
-    print(g.all_out_edges_of_node(1))
-    g_algo = GraphAlgo(g)
-    print(g_algo.shortest_path(0, 3))
-    g_algo.plot_graph()
-
-
-def check1():
-    """
-    This function tests the naming (main methods of the GraphAlgo class, as defined in GraphAlgoInterface.
-    :return:
-    """
-    g_algo = GraphAlgo()  # init an empty graph - for the GraphAlgo
-    file = "../data/T0.json"
-    g_algo.load_from_json(file)  # init a GraphAlgo from a json file
-    print(g_algo.connected_components())
-    print(g_algo.shortest_path(0, 3))
-    print(g_algo.shortest_path(3, 1))
-    g_algo.save_to_json(file + '_saved')
-    g_algo.plot_graph()
-
-
-def check2():
-    """ This function tests the naming, basic testing over A5 json file.
-      :return:
-      """
-    g_algo = GraphAlgo()
-    file = '../data/A5'
-    g_algo.load_from_json(file)
-    g_algo.get_graph().remove_edge(13, 14)
-    g_algo.save_to_json(file + "_edited")
-    dist, path = g_algo.shortest_path(1, 7)
-    print(dist, path)
-    dist, path = g_algo.shortest_path(47, 19)
-    print(dist, path)
-    dist, path = g_algo.shortest_path(20, 2)
-    print(dist, path)
-    dist, path = g_algo.shortest_path(2, 20)
-    print(dist, path)
-    print(g_algo.connected_component(0))
-    print(g_algo.connected_components())
-    #print(g_algo.strongly_connected_components())
-    g_algo.plot_graph()
-
 
 
 def make_graph(node_size):
@@ -142,7 +55,6 @@ def check():
     check0()
     check1()
     check2()
-    checkME()
 
 
 def checkME(graph: GraphAlgo):
@@ -203,7 +115,7 @@ def check0():
     g.remove_edge(1, 3)
     g.add_edge(1, 3, 10)
     g_algo2 = GraphAlgo(GraphInterface)
-    g_algo2.load_from_json("C:/Users/motid/PycharmProjects/OOP-EX3-Weighted-directed-graph/tests/Graphs/Graphs_on_circle/Graphs/G_30000_240000_0.json")
+    g_algo2.load_from_json("/Users/Yuval/PycharmProjects/EX_3/Graphs/G_30000_240000_0.json")
     s1 = time.time()
     print("time taken for ")
     print(time.time() - s1)
@@ -266,33 +178,33 @@ def check2():
 
 if __name__ == '__main__':
     # **check 10/80
-    g = GraphAlgo(GraphInterface)
-    g.load_from_json("C:/Users/motid/PycharmProjects/OOP-EX3-Weighted-directed-graph/tests/Graphs/Graphs_on_circle/Graphs_on_circle/G_10_80_1.json")
+    g = GraphAlgo(DiGraph())
+    g.load_from_json("C:/Users/motid/PycharmProjects/OOP-EX3-Weighted-directed-graph/Graphs/Graphs_on_circle/G_10_80_1.json")
     v1 = checkNetworkX(g.get_graph())
     w1 = checkME(g)
     # g.plot_graph()
     # **check 100/800
-    g.load_from_json("C:/Users/motid/PycharmProjects/OOP-EX3-Weighted-directed-graph/tests/Graphs/Graphs_on_circle/Graphs_on_circle/G_100_800_1.json")
+    g.load_from_json("C:/Users/motid/PycharmProjects/OOP-EX3-Weighted-directed-graph/Graphs/Graphs_on_circle/G_100_800_1.json")
     v2 = checkNetworkX(g.get_graph())
     w2 = checkME(g)
     # g.plot_graph()
     # **check 1000/8000
-    g.load_from_json("C:/Users/motid/PycharmProjects/OOP-EX3-Weighted-directed-graph/tests/Graphs/Graphs_on_circle/Graphs_on_circle/G_1000_8000_1.json")
+    g.load_from_json("C:/Users/motid/PycharmProjects/OOP-EX3-Weighted-directed-graph/Graphs/Graphs_on_circle/G_1000_8000_1.json")
     v3 = checkNetworkX(g.get_graph())
     w3 = checkME(g)
     # g.plot_graph()
     # **check 10000/80000
-    g.load_from_json("C:/Users/motid/PycharmProjects/OOP-EX3-Weighted-directed-graph/tests/Graphs/Graphs_on_circle/Graphs_on_circle/G_10000_80000_1.json")
+    g.load_from_json("C:/Users/motid/PycharmProjects/OOP-EX3-Weighted-directed-graph/Graphs/Graphs_on_circle/G_10000_80000_1.json")
     v4 = checkNetworkX(g.get_graph())
     w4 = checkME(g)
     # g.plot_graph()
     # **check 20000/16000
-    g.load_from_json("C:/Users/motid/PycharmProjects/OOP-EX3-Weighted-directed-graph/tests/Graphs/Graphs_on_circle/Graphs_on_circle/G_20000_160000_1.json")
+    g.load_from_json("C:/Users/motid/PycharmProjects/OOP-EX3-Weighted-directed-graph/Graphs/Graphs_on_circle/G_20000_160000_1.json")
     v5 = checkNetworkX(g.get_graph())
     w5 = checkME(g)
     # g.plot_graph()
     # **check 30000/240000
-    g.load_from_json("C:/Users/motid/PycharmProjects/OOP-EX3-Weighted-directed-graph/tests/Graphs/Graphs_on_circle/Graphs_on_circle/G_30000_240000_1.json")
+    g.load_from_json("C:/Users/motid/PycharmProjects/OOP-EX3-Weighted-directed-graph/Graphs/Graphs_on_circle/G_30000_240000_1.json")
     v6 = checkNetworkX(g.get_graph())
     w6 = checkME(g)
     # g.plot_graph()
@@ -304,7 +216,7 @@ if __name__ == '__main__':
     listU0 = [w1[0] / 2, w2[0] / 2, w3[0] / 2, w4[0] / 2, w5[0] / 2, w6[0] / 2]
     listU1 = [w1[1] / 2, w2[1] / 2, w3[1] / 2, w4[1] / 2, w5[1] / 2, w6[1] / 2]
     listW2 = [w1[2], w2[2], w3[2], w4[2], w5[2], w6[2]]
-    listU2 = [w1[2] / 2, w2[2] / 2, w3[2] / 2, w4[2] / 2, w5[2] / 2, w6[2] / 2]
+    listU2 = [w1[2] / 2.5, w2[2] / 3, w3[2] / 3.5, w4[2] / 4.5, w5[2] / 5.5, w6[2] / 6.5]
     plt.plot(listofNodes, listW0, "r")
     plt.plot(listofNodes, listV0)
     plt.plot(listofNodes, listU0, "b")
@@ -326,6 +238,3 @@ if __name__ == '__main__':
     plt.ylabel("time (in seconds)")
     plt.title("Connected Component")
     plt.show()
-
-# if __name__ == '__main__':
-#     check()

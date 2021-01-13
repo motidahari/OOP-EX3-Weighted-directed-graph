@@ -1,8 +1,8 @@
-from GraphInterface import GraphInteface
+from GraphInterface import GraphInterface
 from Node import Node
 
 
-class DiGraph(GraphInteface):
+class DiGraph(GraphInterface):
     """This abstract class represents an interface of a graph."""
     V = {}
     Nin = {}

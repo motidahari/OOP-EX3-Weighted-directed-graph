@@ -1,8 +1,8 @@
-from GraphInterface import GraphInteface
+from GraphInterface import GraphInterface
 from Node import Node
 
 
-class DiGraph(GraphInteface):
+class DiGraph(GraphInterface):
     """This abstract class represents an interface of a graph."""
     V = {}
     Nin = {}
@@ -36,6 +36,7 @@ class DiGraph(GraphInteface):
         @return: The number of edges in this graph
         """
         return self.edgeSize
+
     def e_size_by_id(self,id1) -> int:
         """
         Returns the number of edges in this graph
