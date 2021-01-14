@@ -11,7 +11,7 @@ class TestGraphAlgo(TestCase):
     list_graph = []
 
     def setUp(self):
-        self.func1()
+        self.func2()
 
     def func1(self):
         my_list = []
@@ -52,6 +52,7 @@ class TestGraphAlgo(TestCase):
         self.func2()
         my_list = [[0, 1, 2, 3, 4, 5, 6],[8],[9]]
         i = 0
+
         for x in self.list_graph[0].get_all_v().values():
             str = "i = {} , {} -> {} == {}".format(i,x.getKey(), self.list_algo[0].connected_component(x.getKey()), my_list[0])
             if i < 7:

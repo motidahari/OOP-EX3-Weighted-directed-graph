@@ -46,28 +46,27 @@ class DiGraph(GraphInterface):
         return 0
 
     def get_all_v(self) -> dict:
-        """return a dictionary of all the nodes in the Graph, each node is represented using apair  (key, node_data)
+        """
+        return a dictionary of all the nodes in the Graph, each node is represented using apair  (key, node_data)
         """
         return self.V
 
     def get_all_values(self) -> dict:
-        """need to change
-
-
-        return a dictionary of all the nodes in the Graph, each node is represented using apair  (key, node_data)
+        """
+        return a dictionary of all the values in the graph dictionary.
         """
         return self.V.values()
 
     def get_items(self) -> dict:
-        """need to change
+        """
 
-        return a dictionary of all the nodes in the Graph, each node is represented using apair  (key, node_data)
+        return a dictionary of all the items in the graph.
         """
         return self.V.items()
 
     def get_v_keys(self) -> dict:
-        """need to change
-        return a dictionary of all the key in the dict, each node is represented using apair  (key, node_data)
+        """
+        return a dictionary of all the keys in the graph.
         """
         return self.V.keys()
 
@@ -136,7 +135,6 @@ class DiGraph(GraphInterface):
             self.mc += 1
             return True
         else:
-            return False
             return False
 
     def remove_node(self, node_id: int) -> bool:

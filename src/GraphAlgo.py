@@ -9,6 +9,11 @@ import random as r
 
 
 class GraphAlgo(GraphAlgoInterface):
+    """
+    GraphAlgo class implements GraphAlgoInterface methods to perform all sort of manipulations on a Directed weighted
+    graph of DiGraph object. The different algorithms performed on the graph include finding the shortest path usnig
+    Dijkstra's algorithm and finding how many SCCs exist in the graph using Tarjan's algorithm.
+    """
 
     def __init__(self, graph=None):
         self.tags = {}
@@ -23,6 +28,9 @@ class GraphAlgo(GraphAlgoInterface):
         self.negative_infnity = float('-inf')
 
     def createTransposedGraph(self, graph) -> DiGraph:
+        """
+        Generates a reversed version of the given graph by iterating over the graph and creating a new DiGraph with the opposite direction of the arrows.
+        """
         if self.g is None:
             return
         new_graph = DiGraph()
@@ -34,6 +42,10 @@ class GraphAlgo(GraphAlgoInterface):
         return new_graph
 
     def setAllTags(self, t: float):
+        """
+        Sets al nodes' tags value to a given integer number t
+        @param t - value of the tag to set.
+        """
         if self.g is None:
             return
         for x in self.g.get_all_values():
@@ -43,6 +55,10 @@ class GraphAlgo(GraphAlgoInterface):
         return self.tags
 
     def setAllWeightAndInfo(self, t: float):
+        """
+        Sets the weight and info of all vertices in the graph to 't' and and empty string.
+        :param t: the weight to set.
+        """
         if self.g is None:
             return
         for x in self.g.get_all_values():
@@ -65,7 +81,7 @@ class GraphAlgo(GraphAlgoInterface):
 
     def get_transposed_graph(self) -> GraphInterface:
         """
-        :return: the directed graph on which the algorithm works on.
+        :return: the transposed directed graph on which the algorithm works on.
         """
         if self.transposed_graph is None:
             return None
@@ -78,20 +94,20 @@ class GraphAlgo(GraphAlgoInterface):
         @returns True if the loading was successful, False o.w.
         """
         try:
-            new_graph = DiGraph()
-            with open(file_name, 'r') as reader:
+            new_graph = DiGraph()  # creating a new DiGraph
+            with open(file_name, 'r') as reader:  # reading from a file in 'r' mode
                 json_graph = Js.load(reader)
                 reader.close()
-                edges = json_graph["Edges"]
-                nodes = json_graph["Nodes"]
+                edges = json_graph["Edges"]  # accessing the position of the key "Edges" being a list
+                nodes = json_graph["Nodes"]  # accessing the position of the key "Nodes" being a list of node objects
                 for x in nodes:
                     pos = None
-                    if 'pos' in x:
-                        posString = x["pos"].split(",")
-                        pos = (float(posString[0]), float(posString[1]), float(posString[2]))
-                    new_graph.add_node(int(x["id"]), pos)
+                    if 'pos' in x:  # if the value of x contains a key for 'pos'
+                        posString = x["pos"].split(",")  # splitting the string of pos
+                        pos = (float(posString[0]), float(posString[1]), float(posString[2]))  # assigning the information on the string into a pos tuple
+                    new_graph.add_node(int(x["id"]), pos)  # adding the node to the graph with the given value of 'id' and the pos
                 for x in edges:
-                    new_graph.add_edge(int(x["src"]), int(x["dest"]), float(x["w"]))
+                    new_graph.add_edge(int(x["src"]), int(x["dest"]), float(x["w"])) # adding the edges
                 self.g = new_graph
                 return True
         except:
@@ -133,56 +149,56 @@ class GraphAlgo(GraphAlgoInterface):
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         """
-        Returns the shortest path from node id1 to node id2 using Dijkstra's Algorithm
+       Returns the shortest path from node id1 to node id2 using Dijkstra's Algorithm.
+       after checking for both id1 and id2 exist in the graph and they're not equal we initially reset all vertices weight and info to -1.
+       iterating over the node neighbours and calculating the weight of the different paths, on the occasion that the last known distance
+       (the sum of weight) is larger than the current known distance we update it to the current weight, and thread the previous info to the current node info.
         @param id1: The start node id
         @param id2: The end node id
-        @return: The di.stance of the path, the path as a list
-        Example:
-        #        >>> from GraphAlgo import GraphAlgo
-        #        >>> g_algo = GraphAlgo()
-        #        >>> g_algo.addNode(0)
-        #        >>> g_algo.addNode(1)
-        #        >>> g_algo.addNode(2)
-        #        >>> g_algo.addEdge(0,1,1)
-        #        >>> g_algo.addEdge(1,2,4)
-        #        >>> g_algo.shortestPath(0,1)
-        #        (1, [0, 1])
-        #        >>> g_algo.shortestPath(0,2)
-        #        (5, [0, 1, 2])
-        More info:
-        https://en.wikipedia.org/wiki/Dijkstra's_algorithm
+        @return: a tuple of the distance of the path, and the path as a list.
+
+
+        Examples of paths:
+#        >>> g_algo.addEdge(0,1,1) 0----->1
+#        >>> g_algo.addEdge(1,2,4) 1---->2
+#        >>> g_algo.shortestPath(0,1)
+#        (1, [0, 1]) given there's one edge connecting them
+#        >>> g_algo.shortestPath(0,2)
+#        (5, [0, 1, 2]) 5 being the total weight of the edges and the list as the path.
+
         """
-        if self.g is None:
-            return (-1,[])
-        if id1 in self.g.get_v_keys() and id1 == id2:
+        if self.g is None:  # in case the graph is none
+            return (-1,[])  # returns a tuple with -1 and empty list.
+        if id1 in self.g.get_v_keys() and id1 == id2: # if id1=id2 the result is a tuple with 0 and a list containing
+            # only the node id
             my_tuple = (0, [self.g.get_all_v()[id1].getKey()])
             return my_tuple
-        if id1 not in self.g.get_all_v().keys() or id2 not in self.g.get_all_v().keys():
+        if id1 not in self.g.get_all_v().keys() or id2 not in self.g.get_all_v().keys():  # if one of the given ids doesn't exist in the graph dictionary
             my_tuple = (-1, [])
             return my_tuple
-        queue = [id1]
-        self.setAllWeightAndInfo(-1)
-        self.g.get_all_v()[id1].setWeight(0)
+        queue = [id1]  # if neither of the above cases happened adds id1 to a queue
+        self.setAllWeightAndInfo(-1)  # resets all nodes weight and info to -1
+        self.g.get_all_v()[id1].setWeight(0)  # sets the weight of id1 to 0
         info = "{}".format(id1)
         self.g.get_all_v()[id1].setInfo(info)
-        while queue:
-            node = queue.pop(0)
-            for x in self.g.all_out_edges_of_node(node).keys():
+        while queue:  # while the queue isn't empty
+            node = queue.pop(0)  # pops the first item in the queue
+            for x in self.g.all_out_edges_of_node(node).keys():  # iterating over node neighbours
                 if self.g.get_all_v()[x].getWeight() == -1 or self.g.get_all_v()[x].getWeight() > self.g.get_all_v()[
                     node].getWeight() + self.g.all_out_edges_of_node(node)[x]:
                     self.g.get_all_v()[x].setWeight(
-                        self.g.get_all_v()[node].getWeight() + self.g.all_out_edges_of_node(node)[x])
+                        self.g.get_all_v()[node].getWeight() + self.g.all_out_edges_of_node(node)[x]) # updating the current vertex and its predecessor weight.
                     queue.append(x)
-                    info = "{},{}".format(self.g.get_all_v()[node].getInfo(), x)
+                    info = "{},{}".format(self.g.get_all_v()[node].getInfo(), x)  # formating the info of the current vertex x
                     self.g.get_all_v()[x].setInfo(info)
-        if self.g.get_all_v()[id2].getWeight() == -1:
-            my_tuple = (math.inf, [])
+        if self.g.get_all_v()[id2].getWeight() == -1:  # if we didn't visit that node yet
+            my_tuple = (math.inf, [])  # we return a tuple with the distance of infinity and an empty list.
             return my_tuple
-        else:
+        else:  # there's a path
             my_list = []
-            for x in self.g.get_all_v()[id2].getInfo().split(','):
+            for x in self.g.get_all_v()[id2].getInfo().split(','):  # iterating over the array of the info string after splitting it
                 my_list.append(int(x))
-            my_tuple = (self.g.get_all_v()[id2].getWeight(), my_list)
+            my_tuple = (self.g.get_all_v()[id2].getWeight(), my_list) # a tuple with the weight of id2 and the list containing the path.
             return my_tuple
 
     def connected_component(self, id1: int) -> list:
@@ -191,14 +207,14 @@ class GraphAlgo(GraphAlgoInterface):
         @param id1: The node id
         @return: The list of nodes in the SCC
         """
-        if self.g is None:
+        if self.g is None or id1 not in self.g.get_all_v():
             return []
-        my_list = self.connected_components()
+        my_list = self.connected_components()  # defining my_list as a list to hold all the lists of SCC in the graph.
         if my_list:
-            for x in my_list:
-                if id1 in x:
-                    return x
-        return []
+            for x in my_list:  # iterating over the list
+                if id1 in x:  # in case the desired id exist in x (list)
+                    return x  # returns the list containing id1 in the SCC
+        return []  # in case id1 wasn't found in neither of the lists returns an empty list.
 
     def connected_components(self) -> List[list]:
         """
@@ -213,26 +229,26 @@ class GraphAlgo(GraphAlgoInterface):
             my_list = []
             i = 0
             keys = self.g.get_all_v().keys()
-            for id in keys:
-                if id not in f:
+            for id in keys:  # iterates over the vertices IDs'
+                if id not in f:  # in case the current id doesn't exist in the dictionary of known SCC
                     queue = [id]
-                    while len(queue) > 0:
+                    while len(queue) > 0:  # while the queue isn't empty
                         vertex = queue[-1]
-                        if vertex not in p:
+                        if vertex not in p:  # in case the current id doesn't exist in the dictionary of p
                             i = i + 1
                             p[vertex] = i
                         done = 1
-                        v_nbrs = self.g.all_out_edges_of_node(vertex)
-                        for w in v_nbrs:
-                            if w not in p:
+                        niById = self.g.all_out_edges_of_node(vertex)
+                        for w in niById:  # iteration over the neighbors of the current vertex
+                            if w not in p:  # in case the current id doesn't exist in the dictionary of q
                                 queue.append(w)
                                 done = 0
                                 break
                         if done == 1:
                             l[vertex] = p[vertex]
-                            for w in v_nbrs:
+                            for w in niById:  # iteration over the neighbors of the current vertex
                                 if w not in f:
-                                    if p[w] <= p[vertex]:
+                                    if p[w] <= p[vertex]:  # comparing between the weight of vertices
                                         l[vertex] = min([l[vertex], p[w]])
                                     else:
                                         l[vertex] = min([l[vertex], l[w]])
@@ -240,21 +256,22 @@ class GraphAlgo(GraphAlgoInterface):
                             if l[vertex] != p[vertex]:
                                 my_list.append(vertex)
                             else:
-                                f[vertex] = True
+                                f[vertex] = True  # marking the vertex as true being a part of the SCC
                                 scc = [vertex]
-                                while my_list and p[my_list[-1]] > p[vertex]:
+                                while my_list and p[my_list[-1]] > p[vertex]:  # iterating over the list while it's
+                                    # not empty & the last value in p larger than p[vertex] adds the vertices to the
+                                    # SCC dictionary
                                     k = my_list.pop()
                                     f[k] = True
                                     scc.append(k)
-                                result.append(scc)
+                                result.append(scc)  # adds the list of SCC to the result list.
             self.components = result
             return result
 
     def plot_graph(self) -> None:
         """
-        Plots the graph.
-        If the nodes have a position, the nodes will be placed there.
-        Otherwise, they will be placed in a random but elegant manner.
+        Plots the graph, if the nodes have a position, the nodes will be placed there.
+        Otherwise, they will be placed in a random position.
         @return: None
         """
         list_X = []
