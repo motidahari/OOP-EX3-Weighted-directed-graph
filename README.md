@@ -1,4 +1,4 @@
-#OOP-EX3-Weighted-directed-graph
+# OOP-EX3-Weighted-directed-graph
 
 **Authors: Dor Yaakobi & Moti Daharif**
 
