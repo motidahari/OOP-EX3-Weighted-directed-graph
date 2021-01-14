@@ -58,6 +58,9 @@ class GraphAlgo(GraphAlgoInterface):
             self.tags[x] = t
 
     def getAllTags(self):
+        """
+        return the dict of tags.
+        """
         return self.tags
 
     def setAllWeightAndInfo(self, t: float):
@@ -72,6 +75,9 @@ class GraphAlgo(GraphAlgoInterface):
             x.setInfo("")
 
     def printAllTags(self):
+        """
+        prints all the dict tags of the graphs nodes.
+        """
         if self.g is None:
             return
         for x in self.tags.items():
@@ -155,23 +161,21 @@ class GraphAlgo(GraphAlgoInterface):
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         """
-       Returns the shortest path from node id1 to node id2 using Dijkstra's Algorithm.
-       after checking for both id1 and id2 exist in the graph and they're not equal we initially reset all vertices weight and info to -1.
-       iterating over the node neighbours and calculating the weight of the different paths, on the occasion that the last known distance
-       (the sum of weight) is larger than the current known distance we update it to the current weight, and thread the previous info to the current node info.
+        Returns the shortest path from node id1 to node id2 using Dijkstra's Algorithm.
+        after checking for both id1 and id2 exist in the graph and they're not equal we initially reset all vertices weight and info to -1.
+        iterating over the node neighbours and calculating the weight of the different paths, on the occasion that the last known distance
+        (the sum of weight) is larger than the current known distance we update it to the current weight, and thread the previous info to the current node info.
         @param id1: The start node id
         @param id2: The end node id
         @return: a tuple of the distance of the path, and the path as a list.
 
-
         Examples of paths:
-#        >>> g_algo.addEdge(0,1,1) 0----->1
-#        >>> g_algo.addEdge(1,2,4) 1---->2
-#        >>> g_algo.shortestPath(0,1)
-#        (1, [0, 1]) given there's one edge connecting them
-#        >>> g_algo.shortestPath(0,2)
-#        (5, [0, 1, 2]) 5 being the total weight of the edges and the list as the path.
-
+        g_algo.addEdge(0,1,1) 0----->1
+        g_algo.addEdge(1,2,4) 1---->2
+        g_algo.shortestPath(0,1)
+        (1, [0, 1]) given there's one edge connecting them
+        g_algo.shortestPath(0,2)
+        (5, [0, 1, 2]) 5 being the total weight of the edges and the list as the path.
         """
         if self.g is None:  # in case the graph is none
             return (-1,[])  # returns a tuple with -1 and empty list.
@@ -321,6 +325,11 @@ class GraphAlgo(GraphAlgoInterface):
         return checkList
 
     def splitPos(self, pos: str) -> list:
+        """
+        this method is used mainly when loading a graph from a json file,
+        in case there is no pos assigned to the node a random pos will be assigned to it.
+        otherwise this method will split the string and return a list containing the pos of the current node.
+        """
         if pos == "":
             x = float((r.random() * 5) + 2)
             y = float((r.random() * 5) + 2)
