@@ -16,6 +16,12 @@ class GraphAlgo(GraphAlgoInterface):
     """
 
     def __init__(self, graph=None):
+        """
+            GraphAlgo implements the interface GraphAlgoInterface. The different methods to be performed on a directed
+            weighted graph such as shortest path from two given vertices (Dijkstra's algorithm), determine how many SCC (strongly connected
+            component) exists in the graph. exploration of the graph with BFS algorithm. Other methods such as save/load a graph into a json file format,
+            As well as a method for a user GUI.
+            """
         self.tags = {}
         self.VISITED = 1
         self.NOT_VISITED = 0
