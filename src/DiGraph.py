@@ -4,14 +4,14 @@ from Node import Node
 
 class DiGraph(GraphInterface):
     """This class represents the DS of a GraphInteface using several dictionaries.
-    * V = a dictionary to represent the vertices in the graph in a format of {key: integer,value: Node}.
-    * Nin = A dictionary to represent each node predecessors (inverted arrows) that are connected to it in a format of {key: integer,value: node_id1,node_id2 etc.}.
-    * Nout = A dictionary to represent each node successors (meaning it is the head of the arrow) that are connected to it in a format of {key: integer,value: node_id1,node_id2 etc.}
-    * total_E = A dictionary to contain the information of how many arrows are connected to a specific vertex.
-        this is helpful  when removing a node from the graph that way it is accesible in O(1)
-    * nodeSize -  a variable to know how many vertices currently exists in the graph.
-    * edgeSize - a variable to know how many edges (arrows) currently exists in the graph.
-    * mc - a variable to know how many changes had been made to the graph.
+    V = a dictionary to represent the vertices in the graph in a format of {key: integer,value: Node}.
+    Nin = A dictionary to represent each node predecessors (inverted arrows) that are connected to it in a format of {key: integer,value: node_id1,node_id2 etc.}.
+    Nout = A dictionary to represent each node successors (meaning it is the head of the arrow) that are connected to it in a format of {key: integer,value: node_id1,node_id2 etc.}
+    total_E = A dictionary to contain the information of how many arrows are connected to a specific vertex.
+    this is helpful  when removing a node from the graph that way it is accesible in O(1)
+    nodeSize -  a variable to know how many vertices currently exists in the graph.
+    edgeSize - a variable to know how many edges (arrows) currently exists in the graph.
+    mc - a variable to know how many changes had been made to the graph.
      """
     V = {}
     Nin = {}
