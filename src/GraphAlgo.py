@@ -295,7 +295,7 @@ class GraphAlgo(GraphAlgoInterface):
                     list_X.append(listOfEdgesByX[0])
                     list_Y.append(listOfEdgesByX[1])
 
-                plt.plot(list_X, list_Y, "*-b")
+            plt.plot(list_X, list_Y, "o-r")
                 # listOfVector = self.checkValue(listOfVector)
                 # listOfEdgesByX = self.checkValue(listOfEdgesByX)
                 # #plt.scatter(listOfVector[0], listOfVector[1], s=150, zorder=5)

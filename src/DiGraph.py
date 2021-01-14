@@ -210,6 +210,7 @@ class DiGraph(GraphInterface):
         str += "Graph's nodes successors  = { \n"
         for element in self.V.values():
             str += "#{} out -> :{}\n".format(element.getKey(), self.all_out_edges_of_node(element.getKey()))
+            str += "#{} out -> :{}\n".format(element.getKey(), self.all_out_edges_of_node(element.getKey()))
         str += "}\n\n"
         return str
 

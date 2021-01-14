@@ -11,9 +11,17 @@ class TestGraphAlgo(TestCase):
     list_graph = []
 
     def setUp(self):
+        """
+        We are call to func1 that run by all the jsons in and create objects of algo and graphs,
+        each object we added to list and check the other functions by the lists.
+        """
         self.func2()
 
     def func1(self):
+        """
+        run by all the jsons in and create objects of algo and graphs,
+        each object we added to list and check the other functions by the lists.
+        """
         my_list = []
         dir_path = os.path.dirname(os.path.realpath(__file__))
         parent = Path(dir_path).parent
@@ -33,6 +41,10 @@ class TestGraphAlgo(TestCase):
                 self.list_graph.append(algo.get_graph())
 
     def func2(self):
+        """
+        create specific graph for some tests.
+        with 9 vertex.
+        """
         graph = DiGraph()
         for x in range(7):
             graph.add_node(x)
@@ -43,12 +55,22 @@ class TestGraphAlgo(TestCase):
         graph.add_node(8)
         graph.add_node(9)
         algo = GraphAlgo(graph)
+        algo.plot_graph()
+        str1 = "{}".format(algo.get_graph())
+        str2 = "{}".format(graph.toStringInAndOut())
+        print(str1)
+        print(str2)
         self.list_algo = []
         self.list_graph = []
         self.list_algo.append(algo)
         self.list_graph.append(algo.get_graph())
 
+
     def test_connected_component(self):
+        """
+        run by func2 and check the connected_component by each node in the graph.
+        This functions tests the connected_component function for the class DiGraph
+        """
         self.func2()
         my_list = [[0, 1, 2, 3, 4, 5, 6],[8],[9]]
         i = 0
@@ -65,36 +87,59 @@ class TestGraphAlgo(TestCase):
             i += 1
 
     def test_connected_components(self):
+        """
+        run by func2 and check the connected_components of the graph.
+        This functions tests the connected_components function for the class DiGraph
+        """
         self.func2()
         my_list = [[0, 1, 2, 3, 4, 5, 6], [8], [9]]
         self.assertEqual(my_list, self.list_algo[0].connected_components())
 
     def test_create_transposed_graph(self):
+        """
+        run by func2 and check the create_transposed_graph of the graph.
+        This functions tests the create_transposed_graph function for the class DiGraph
+        """
         self.func2()
         for i in self.list_algo:
             for node in i.get_graph().get_all_v().keys():
                 self.assertEqual(i.get_graph().all_out_edges_of_node(node).keys(),i.get_transposed_graph().all_in_edges_of_node(node).keys())
 
     def test_set_all_tags(self):
+        """
+        run by all the jsons file and check the set_all_tags of the graph.
+        This functions tests the set_all_tags function for the class DiGraph
+        """
         for i in self.list_algo:
             i.setAllTags(100)
         for i in i.getAllTags().values():
             self.assertEqual(100,i)
 
     def test_get_all_tags(self):
+        """
+        run by all the jsons file and check the get_all_tags of the graph.
+        This functions tests the get_all_tags function for the class DiGraph
+        """
         for i in self.list_algo:
             i.setAllTags(100)
         for i in i.getAllTags().values():
             self.assertEqual(100,i)
 
     def test_set_all_weight_and_info(self):
+        """
+        run by all the jsons file and check the set_all_weight_and_info of the graph.
+        This functions tests the set_all_weight_and_info function for the class DiGraph
+        """
         for i in self.list_algo:
-
             i.setAllWeightAndInfo(100)
         for i in i.get_graph().get_all_v().values():
             self.assertEqual(100,i.getWeight())
 
     def test_get_graph(self):
+        """
+        run by all the jsons file and check the get_graph of the graph.
+        This functions tests the get_graph function for the class DiGraph
+        """
         index = 0
         for i in self.list_graph:
             g1 = "".format(i)
@@ -103,6 +148,10 @@ class TestGraphAlgo(TestCase):
             index += 1
 
     def test_load_from_json(self):
+        """
+        run by all the jsons file and check the load_from_json of the graph.
+        This functions tests the load_from_json function for the class DiGraph
+        """
         my_list = []
         dir_path = os.path.dirname(os.path.realpath(__file__))
         parent = Path(dir_path).parent
@@ -125,6 +174,10 @@ class TestGraphAlgo(TestCase):
             self.assertTrue(x.get_graph().v_size() > 0)
 
     def test_save_to_json(self):
+        """
+        run by all the jsons file and check the save_to_json of the graph.
+        This functions tests the save_to_json function for the class DiGraph
+        """
         for x in self.list_algo:
             graph = x.get_graph()
             x.save_to_json("saveCheck.json")
@@ -134,6 +187,10 @@ class TestGraphAlgo(TestCase):
             self.assertEqual(str1,str2)
 
     def test_shortest_path(self):
+        """
+        run by func2 and check the shortest_path of the graph.
+        This functions tests the shortest_path function for the class DiGraph
+        """
         self.func2()
         for x in self.list_algo:
             nodeSize = x.get_graph().v_size()
@@ -158,6 +215,10 @@ class TestGraphAlgo(TestCase):
                             run += 1
 
     def test_split_pos(self):
+        """
+        run by func2 and check the split_pos of the graph.
+        This functions tests the split_pos function for the class DiGraph
+        """
         self.func2()
         for x in self.list_algo:
             rand1 = r.randint(-100, 100)*100
@@ -177,6 +238,10 @@ class TestGraphAlgo(TestCase):
             self.assertEqual(result[0] == check[0],result[1] == check[1])
 
     def test_chack_value(self):
+        """
+        run by func2 and check the chack_value of the graph.
+        This functions tests the chack_value function for the class DiGraph
+        """
         self.func2()
         for x in self.list_algo:
             rand1 = format(r.randint(-100, 100) * 100)

@@ -7,6 +7,10 @@ class TestDiGraph(TestCase):
     graph = None
 
     def setUp(self):
+        """
+        We are running on range 200, we add 200 nodes to the graph.
+        This functions tests the constructor function for the class DiGraph
+        """
         g = DiGraph()
         for x in range(200):
             g.add_node(x)
@@ -16,6 +20,10 @@ class TestDiGraph(TestCase):
         self.graph = g
 
     def test_v_size(self):
+        """
+        We are running on range 21, we remove 21 nodes from the graph.
+        This functions tests the v_size function for the class DiGraph
+        """
         self.assertEqual(200, len(self.graph.get_all_v()))
         for x in range(21):
             # rand = r.randrange(0,len(self.graph.get_V()))
@@ -25,12 +33,21 @@ class TestDiGraph(TestCase):
         self.assertNotEqual(200, len(self.graph.get_all_v()))
 
     def test_e_size(self):
+        """
+        We are running on by all vertex, connect each vertex to key + 1 and key + 2
+        This functions tests the e_size function for the class DiGraph
+        """
         for x in self.graph.get_all_values():
             self.graph.add_edge(x.getKey(), x.getKey() + 1, x.getKey() * 100)
             self.graph.add_edge(x.getKey(), x.getKey() + 2, x.getKey() * 100)
         self.assertEqual(len(self.graph.get_all_v()) * 2 - 3, self.graph.e_size())
 
     def test_get_all_v(self):
+        """
+        We are running on by all vertex in the graph, and try to add the same key from the graph to new graph.
+        we check the keys from graph1 to graph2 and check the number of ms and e_size and v_size.
+        This functions tests the get_all_v function for the class DiGraph.
+        """
         newG = DiGraph()
         for x in self.graph.get_all_v().values():
             newG.add_node(x.getKey())
@@ -43,6 +60,11 @@ class TestDiGraph(TestCase):
         self.assertEqual(newG.v_size(), self.graph.v_size())
 
     def test_get_all_values(self):
+        """
+        We are running on by all vertex in the graph, and try to add the same key from the graph to new graph.
+        we check the keys from graph1 to graph2 and check the number of ms and e_size and v_size.
+        This functions tests the get_all_values function for the class DiGraph.
+        """
         newG = DiGraph()
         for x in self.graph.get_all_values():
             newG.add_node(x.getKey())
@@ -54,6 +76,11 @@ class TestDiGraph(TestCase):
         self.assertEqual(newG.v_size(), self.graph.v_size())
 
     def test_get_v_keys(self):
+        """
+        We are running on by all vertex in the graph, and try to add the same key from the graph to new graph.
+        we check the keys from graph1 to graph2 and check the number of ms and e_size and v_size.
+        This functions tests the get_v_keys function for the class DiGraph.
+        """
         newG = DiGraph()
         for x in self.graph.get_v_keys():
             newG.add_node(x)
@@ -65,6 +92,11 @@ class TestDiGraph(TestCase):
         self.assertEqual(newG.v_size(), self.graph.v_size())
 
     def test_get_items(self):
+        """
+        We are running on by all vertex in the graph, and try to add the same key from the graph to new graph.
+        we check the keys from graph1 to graph2 and check the number of ms and e_size and v_size.
+        This functions tests the get_items function for the class DiGraph.
+        """
         newG = DiGraph()
         for x in self.graph.get_items():
             newG.add_node(x[1].getKey())
@@ -76,6 +108,11 @@ class TestDiGraph(TestCase):
         self.assertEqual(newG.v_size(), self.graph.v_size())
 
     def test_all_in_edges_of_node(self):
+        """
+        We are running on by all vertex, connect each vertex to key + 1 and key + 2.
+        we check the number of the edges in the graph by node_id.
+        This functions tests the all_in_edges_of_node function for the class DiGraph.
+        """
         for x in self.graph.get_all_values():
             self.graph.add_edge(x.getKey(), x.getKey() + 1, x.getKey() * 100)
             self.graph.add_edge(x.getKey(), x.getKey() + 2, x.getKey() * 100)
@@ -94,6 +131,11 @@ class TestDiGraph(TestCase):
                     z -= 1
 
     def test_all_out_edges_of_node(self):
+        """
+        We are running on by all vertex, connect each vertex to key + 1 and key + 2.
+        we check the number of the edges in the graph by node_id.
+        This functions tests the all_out_edges_of_node function for the class DiGraph.
+        """
         for x in self.graph.get_all_values():
             self.graph.add_edge(x.getKey(), x.getKey() + 1, x.getKey() * 100)
             self.graph.add_edge(x.getKey(), x.getKey() + 2, x.getKey() * 100)
@@ -114,6 +156,10 @@ class TestDiGraph(TestCase):
 
 
     def test_get_mc(self):
+        """
+        We are running on by all vertex, connect each vertex to key + 1.
+        This functions tests the get_mc function for the class DiGraph
+        """
         mc = 200
         self.assertEqual(self.graph.get_mc(), mc)
         for x in self.graph.get_all_values():
@@ -130,6 +176,11 @@ class TestDiGraph(TestCase):
         self.assertEqual(self.graph.get_mc(), mc)
 
     def test_add_edge(self):
+        """
+        We are running on by all vertex, connect each vertex to key + 1.
+        and try to make more connent from the vertex in the graph and remove nodes from the graph.
+        This functions tests the add_edge function for the class DiGraph.
+        """
         edges = 0
         self.assertEqual(self.graph.e_size(), edges)
         for x in self.graph.get_all_values():
@@ -165,6 +216,11 @@ class TestDiGraph(TestCase):
         self.assertEqual(self.graph.e_size(), edges)
 
     def test_add_node(self):
+        """
+        We are running on by range 200, try to add random key in the graph.
+        and try to add and remove nodes from the graph.
+        This functions tests the add_node function for the class DiGraph.
+        """
         nodes = 200
         self.assertEqual(self.graph.v_size(), nodes)
         for x in range(200):
@@ -191,6 +247,11 @@ class TestDiGraph(TestCase):
         self.assertEqual(self.graph.v_size(), nodes)
 
     def test_remove_node(self):
+        """
+        We are running on by range 50, try to add random key in the graph.
+        and try to add and remove nodes from the graph.
+        This functions tests the add_node function for the class DiGraph.
+        """
         nodes = 200
         self.assertEqual(self.graph.v_size(), nodes)
         self.assertEqual(self.graph.v_size(), nodes)
@@ -217,6 +278,11 @@ class TestDiGraph(TestCase):
         self.assertEqual(self.graph.v_size(), nodes)
 
     def test_remove_edge(self):
+        """
+        We are running on by all the vertex, try to connect each node to node_key + 1.
+        and try to add and remove nodes and edges from the graph.
+        This functions tests the remove_edge function for the class DiGraph.
+        """
         edges = 0
         self.assertEqual(self.graph.e_size(), edges)
         for x in self.graph.get_all_values():
